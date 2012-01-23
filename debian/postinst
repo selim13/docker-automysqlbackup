@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -e
+
+if [ -e /etc/default/automysqlbackup ] ; then
+	. /etc/default/automysqlbackup
+fi
+
+if [ -z "${BACKUPDIR}" ] ; then
+	BACKUPDIR=/var/lib/automysqlbackup
+fi
+
+if [ -d ${BACKUPDIR} ] ; then
+	find ${BACKUPDIR} -type f -exec chmod 600 {} \;
+fi
+
+#DEBHELPER#

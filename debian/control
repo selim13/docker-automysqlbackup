@@ -1,0 +1,18 @@
+Source: automysqlbackup
+Section: admin
+Priority: extra
+Maintainer: Thomas Goirand <thomas@goirand.fr>
+Build-Depends: debhelper (>= 5)
+Standards-Version: 3.8.4
+Dm-Upload-Allowed: yes
+Homepage: http://sourceforge.net/projects/automysqlbackup/
+
+Package: automysqlbackup
+Architecture: all
+Recommends: mutt
+Depends: ${misc:Depends}, mysql-client-5.0 | mysql-client
+Description: a daily, weekly and monthly backup for your MySQL database
+ automysqlbackup creates backup every day, week and month for all of your MySQL
+ database, to a configured folder. There's nothing to do but to install this
+ package, and you'll rest assured that you have a way to go back in the history
+ of your database.

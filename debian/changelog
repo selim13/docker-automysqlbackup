@@ -1,0 +1,41 @@
+automysqlbackup (2.5-6) unstable; urgency=low
+
+  * Fixes the --opt issue with the information_schema that needs --skip-opt
+    instead of --opt (Closes: #550037).
+  * Added ${misc:Depends}.
+  * Added patch to purge the rotated weekly backups that are older than 5
+    weeks, if you selected SEPDIR (Separate backup for each DB), thanks to
+    Gregor Hoffleit <flight@debian.org> (Closes: #572642).
+  * Removes verbosivity when doing rm when LATEST is in use, as suggested
+    by Frédéric Brière <fbriere@fbriere.net> (Closes: #574479).
+
+ -- Thomas Goirand <thomas@goirand.fr>  Tue, 23 Mar 2010 20:54:27 +0800
+
+automysqlbackup (2.5-5) unstable; urgency=low
+
+  * Added Recommends: mutt (Closes: #532402).
+  * Now uses a SHOW DATABASES statement to list all DBs to backup in the
+    /etc/defaults/automysqlbackup, which is a lot more reliable than the
+    previous folder listing (Closes: #539370).
+  * Added some quotes in the script to avoid some parsing errors, which
+    was reported by a user of the package (Closes: #534852).
+  * Added more comments in the /etc/defaults/automysqlbackup.
+  * Added a watch file.
+  * Bumped Standards-Version to 3.8.2.
+
+ -- Thomas Goirand <thomas@goirand.fr>  Thu, 06 Aug 2009 12:55:25 +0800
+
+automysqlbackup (2.5-3) unstable; urgency=high
+
+  * There are now more options in the /etc/defaults/automysqlbackup config file
+    as requested (in fact all advanced options) (Closes: #506135).
+  * Backups are not world readable anymore (chmod 600 after the backup is
+    performed). Thansk to jacques-billard@studio-jibe.com for reporting.
+
+ -- Thomas Goirand <thomas@goirand.fr>  Sun, 22 Mar 2009 18:05:23 +0800
+
+automysqlbackup (2.5-1) unstable; urgency=low
+
+  * Initial release. (Closes: #497899)
+
+ -- Thomas Goirand <thomas@goirand.fr>  Fri,  5 Sep 2008 15:28:25 +0800
