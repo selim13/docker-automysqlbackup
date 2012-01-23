@@ -3,6 +3,8 @@ automysqlbackup (2.5-7) unstable; urgency=low
   * debian/copyright now using DEP5 format.
   * Added Vcs fields and a debian/gbp.conf.
   * Switching to source format 1.0 (quilt).
+  * Removed now useless Dm-Upload-Allowed:, and now using my @debian.org email
+  as maintainer.
 
  -- Thomas Goirand <zigo@debian.org>  Mon, 23 Jan 2012 17:02:38 +0800
 

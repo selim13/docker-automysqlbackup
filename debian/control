@@ -1,10 +1,9 @@
 Source: automysqlbackup
 Section: admin
 Priority: extra
-Maintainer: Thomas Goirand <thomas@goirand.fr>
+Maintainer: Thomas Goirand <zigo@debian.org>
 Build-Depends: debhelper (>= 5)
 Standards-Version: 3.8.4
-Dm-Upload-Allowed: yes
 Vcs-Browser: http://git.debian.org/?p=users/zigo/automysqlbackup.git
 Vcs-Git: http://git.debian.org/git/users/zigo/automysqlbackup.git
 Homepage: http://sourceforge.net/projects/automysqlbackup/
