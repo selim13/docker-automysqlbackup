@@ -1,6 +1,9 @@
 #!/usr/bin/make -f
 
-build:
+build: build-arch build-indep
+build-arch: build-stamp
+build-indep: build-stamp
+build-stamp:
 
 clean:
 	dh_testdir
