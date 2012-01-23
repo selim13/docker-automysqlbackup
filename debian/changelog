@@ -9,6 +9,8 @@ automysqlbackup (2.5-7) unstable; urgency=low
   * Standards-Version: is now 3.9.2.
   * Remove "a" article in short description.
   * Added build-arch: and build-indep: targets in debian/rules.
+  * Fixes Script fails with error when DBNAMES="all", thanks to Chris Moules
+  <debian.bug@gms.lu> (Closes: #654388).
 
  -- Thomas Goirand <zigo@debian.org>  Mon, 23 Jan 2012 17:02:38 +0800
 
