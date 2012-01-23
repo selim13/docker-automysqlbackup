@@ -7,6 +7,7 @@ automysqlbackup (2.5-7) unstable; urgency=low
   as maintainer.
   * Now depends on mysql-client-5.1 | mysql-client (and not 5.0 anymore).
   * Standards-Version: is now 3.9.2.
+  * Remove "a" article in short description.
 
  -- Thomas Goirand <zigo@debian.org>  Mon, 23 Jan 2012 17:02:38 +0800
 
