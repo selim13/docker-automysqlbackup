@@ -3,7 +3,7 @@ Section: admin
 Priority: extra
 Maintainer: Thomas Goirand <zigo@debian.org>
 Build-Depends: debhelper (>= 5)
-Standards-Version: 3.8.4
+Standards-Version: 3.9.2
 Vcs-Browser: http://git.debian.org/?p=users/zigo/automysqlbackup.git
 Vcs-Git: http://git.debian.org/git/users/zigo/automysqlbackup.git
 Homepage: http://sourceforge.net/projects/automysqlbackup/
@@ -11,7 +11,7 @@ Homepage: http://sourceforge.net/projects/automysqlbackup/
 Package: automysqlbackup
 Architecture: all
 Recommends: mutt
-Depends: ${misc:Depends}, mysql-client-5.0 | mysql-client
+Depends: ${misc:Depends}, mysql-client-5.1 | mysql-client
 Description: a daily, weekly and monthly backup for your MySQL database
  automysqlbackup creates backup every day, week and month for all of your MySQL
  database, to a configured folder. There's nothing to do but to install this
