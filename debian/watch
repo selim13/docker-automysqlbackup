@@ -1,2 +1,3 @@
 version=3
+opts=dversionmangle=s/\+debian// \
 http://sf.net/automysqlbackup/automysqlbackup.sh.(.+)

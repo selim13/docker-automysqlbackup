@@ -1,5 +1,10 @@
-automysqlbackup (2.5-7) unstable; urgency=low
+automysqlbackup (2.6+debian-1) unstable; urgency=low
 
+  * New upstream version. With this new Debian release, I'm deciding to
+  completely fork upstream work, as it's being impossible to work with
+  upstream (no responsiveness), that upstream branch diverged, and is still
+  containing the very bad security issue to save DBs dumps as world readable
+  after my repeated warnings.
   * debian/copyright now using DEP5 format.
   * Added Vcs fields and a debian/gbp.conf.
   * Switching to source format 1.0 (quilt).
