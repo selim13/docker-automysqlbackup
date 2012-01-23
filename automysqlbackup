@@ -484,7 +484,11 @@ fi
 
 # If backing up all DBs on the server
 if [ "$DBNAMES" = "all" ]; then
+	if [ -z "${USERNAME}" -o -z "${PASSWORD}" ] ; then
+        DBNAMES="`mysql --defaults-file=/etc/mysql/debian.cnf --batch --skip-column-names -e "show databases"| sed 's/ /%/g'`"
+	else
         DBNAMES="`mysql --user=$USERNAME --password=$PASSWORD --host=$DBHOST --batch --skip-column-names -e "show databases"| sed 's/ /%/g'`"
+	fi
 
 	# If DBs are excluded
 	for exclude in $DBEXCLUDE
