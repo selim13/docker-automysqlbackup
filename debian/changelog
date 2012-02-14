@@ -1,3 +1,10 @@
+automysqlbackup (2.6+debian-2) unstable; urgency=low
+
+  * Now only depends on mysql-client, and not mysql-client-x.x | mysql-client
+  anymore.
+
+ -- Thomas Goirand <zigo@debian.org>  Tue, 14 Feb 2012 20:10:54 +0800
+
 automysqlbackup (2.6+debian-1) unstable; urgency=low
 
   * New upstream version. With this new Debian release, I'm deciding to
