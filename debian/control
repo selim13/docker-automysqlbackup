@@ -3,7 +3,7 @@ Section: admin
 Priority: extra
 Maintainer: Thomas Goirand <zigo@debian.org>
 Build-Depends: debhelper (>= 5)
-Standards-Version: 3.9.2
+Standards-Version: 3.9.3
 Vcs-Browser: http://git.debian.org/?p=users/zigo/automysqlbackup.git
 Vcs-Git: http://git.debian.org/git/users/zigo/automysqlbackup.git
 Homepage: http://sourceforge.net/projects/automysqlbackup/

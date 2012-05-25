@@ -22,7 +22,7 @@ DBHOST=localhost
 # reading the mysql folder content. Feel free to replace by something else.
 # DBNAMES=`find /var/lib/mysql -mindepth 1 -maxdepth 1 -type d | cut -d'/' -f5 | grep -v ^mysql\$ | tr \\\r\\\n ,\ `
 # This one does a list of dbs using a MySQL statement.
-DBNAMES=`mysql --defaults-file=/etc/mysql/debian.cnf --execute="SHOW DATABASES" | awk '{print $1}' | grep -v ^Database$ | grep -v ^mysql$ | tr \\\r\\\n ,\ `
+DBNAMES=`mysql --defaults-file=/etc/mysql/debian.cnf --execute="SHOW DATABASES" | awk '{print $1}' | grep -v ^Database$ | grep -v ^mysql$ | grep -v ^performance_schema$ | grep -v ^information_schema$ | tr \\\r\\\n ,\ `
 
 # Backup directory location e.g /backups
 # Folders inside this one will be created (daily, weekly, etc.), and the

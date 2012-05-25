@@ -1,3 +1,11 @@
+automysqlbackup (2.6+debian-3) unstable; urgency=low
+
+  * Doesn't backup the performance_schema and information_schema databases by
+  default anymore (Closes: #673257).
+  * Bumps Standard-Version: to 3.9.3 (no change required).
+
+ -- Thomas Goirand <zigo@debian.org>  Fri, 25 May 2012 11:42:27 +0000
+
 automysqlbackup (2.6+debian-2) unstable; urgency=low
 
   * Now only depends on mysql-client, and not mysql-client-x.x | mysql-client
