@@ -97,6 +97,9 @@ SOCKET=
 # Command run after backups (uncomment to use)
 #POSTBACKUP="/etc/mysql-backup-post"
 
+# Backup of stored procedures and routines
+ROUTINES=yes
+
 fi
 
 #=====================================================================
@@ -357,6 +360,12 @@ OPT="--quote-names"			# OPT string for use with mysqldump ( see man mysqldump )
 if [ "$COMMCOMP" = "yes" ];
 	then
 		OPT="$OPT --compress"
+	fi
+
+# Add --routines mysqldum option to ${OPT}
+if [ "${ROUTINES}" = "yes" ];
+	then
+		OPT="${OPT} --routines"
 	fi
 
 # Add --compress mysqldump option to $OPT
