@@ -3,6 +3,7 @@ automysqlbackup (2.6+debian-3) unstable; urgency=low
   * Doesn't backup the performance_schema and information_schema databases by
   default anymore (Closes: #673257).
   * Bumps Standard-Version: to 3.9.3 (no change required).
+  * Added an option to backup routines with --routines (Closes: #631218).
 
  -- Thomas Goirand <zigo@debian.org>  Fri, 25 May 2012 11:42:27 +0000
 

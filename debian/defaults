@@ -87,3 +87,6 @@ SOCKET=
 
 # Command run after backups (uncomment to use)
 #POSTBACKUP="/etc/mysql-backup-post"
+
+# Backup of stored procedures and routines (comment to remove)
+ROUTINES=yes
