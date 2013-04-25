@@ -401,7 +401,7 @@ then
 	then
 		mkdir -p "$BACKUPDIR/latest"
 	fi
-eval rm -f "$BACKUPDIR/latest/*"
+rm -f "$BACKUPDIR"/latest/*
 fi
 
 # IO redirection for logging.
@@ -464,7 +464,7 @@ if [ "$PREBACKUP" ]
 	echo ======================================================================
 	echo "Prebackup command output."
 	echo
-	eval $PREBACKUP
+	$PREBACKUP
 	echo
 	echo ======================================================================
 	echo
@@ -566,7 +566,7 @@ echo ======================================================================
 			else
 				REMW=`expr $W - 5`
 			fi
-		eval rm -fv "$BACKUPDIR/weekly/$DB/${DB}_week.$REMW.*" 
+		rm -fv "$BACKUPDIR/weekly/$DB/${DB}_week.$REMW".*
 		echo
 			dbdump "$DB" "$BACKUPDIR/weekly/$DB/${DB}_week.$W.$DATE.sql"
 			compression "$BACKUPDIR/weekly/$DB/${DB}_week.$W.$DATE.sql"
@@ -577,7 +577,7 @@ echo ======================================================================
 	else
 		echo Daily Backup of Database \( $DB \)
 		echo Rotating last weeks Backup...
-		eval rm -fv "$BACKUPDIR/daily/$DB/*.$DOW.sql.*" 
+		rm -fv "$BACKUPDIR/daily/$DB"/*."$DOW".sql.*
 		echo
 			dbdump "$DB" "$BACKUPDIR/daily/$DB/${DB}_$DATE.$DOW.sql"
 			compression "$BACKUPDIR/daily/$DB/${DB}_$DATE.$DOW.sql"
@@ -613,7 +613,7 @@ echo ======================================================================
 			else
 				REMW=`expr $W - 5`
 			fi
-		eval rm -fv "$BACKUPDIR/weekly/week.$REMW.*" 
+		rm -fv "$BACKUPDIR/weekly/week.$REMW".*
 		echo
 			dbdump "$DBNAMES" "$BACKUPDIR/weekly/week.$W.$DATE.sql"
 			compression "$BACKUPDIR/weekly/week.$W.$DATE.sql"
@@ -625,7 +625,7 @@ echo ======================================================================
 		echo Daily Backup of Databases \( $DBNAMES \)
 		echo
 		echo Rotating last weeks Backup...
-		eval rm -fv "$BACKUPDIR/daily/*.$DOW.sql.*" 
+		rm -fv "$BACKUPDIR"/daily/*."$DOW.sql".*
 		echo
 			dbdump "$DBNAMES" "$BACKUPDIR/daily/$DATE.$DOW.sql"
 			compression "$BACKUPDIR/daily/$DATE.$DOW.sql"
@@ -650,7 +650,7 @@ if [ "$POSTBACKUP" ]
 	echo ======================================================================
 	echo "Postbackup command output."
 	echo
-	eval $POSTBACKUP
+	$POSTBACKUP
 	echo
 	echo ======================================================================
 fi
@@ -712,7 +712,7 @@ if [ -s "$LOGERR" ]
 fi
 
 # Clean up Logfile
-eval rm -f "$LOGFILE"
-eval rm -f "$LOGERR"
+rm -f "$LOGFILE"
+rm -f "$LOGERR"
 
 exit $STATUS
