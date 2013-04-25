@@ -1,2 +1,3 @@
 #!/bin/sh
-test -x /usr/sbin/automysqlbackup && /usr/sbin/automysqlbackup
+test -x /usr/sbin/automysqlbackup || exit 0
+/usr/sbin/automysqlbackup

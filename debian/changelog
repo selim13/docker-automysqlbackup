@@ -1,4 +1,11 @@
-automysqlbackup (2.6+debian-3) unstable; urgency=low
+automysqlbackup (2.6+debian.2-2) unstable; urgency=low
+
+  * Cronjob exits without error after package removal, thanks to Holger Levsen
+  for reporting the issue and Andreas Beckmann for the patch (Closes: #633450).
+
+ -- Thomas Goirand <zigo@debian.org>  Fri, 01 Feb 2013 05:20:13 +0000
+
+automysqlbackup (2.6+debian.2-1) unstable; urgency=low
 
   * Doesn't backup the performance_schema and information_schema databases by
   default anymore (Closes: #673257).
