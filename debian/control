@@ -10,7 +10,7 @@ Homepage: http://sourceforge.net/projects/automysqlbackup/
 
 Package: automysqlbackup
 Architecture: all
-Recommends: mutt, mailutils
+Recommends: mutt
 Depends: ${misc:Depends}, mysql-client
 Description: daily, weekly and monthly backup for your MySQL database
  automysqlbackup creates backup every day, week and month for all of your MySQL
