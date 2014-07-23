@@ -380,6 +380,9 @@ if [ ! -e "$BACKUPDIR" ]		# Check Backup Directory exists.
 	mkdir -p "$BACKUPDIR"
 fi
 
+chmod o-x ${BACKUPDIR}
+chmod o-r ${BACKUPDIR}
+
 if [ ! -e "$BACKUPDIR/daily" ]		# Check Daily Directory exists.
 	then
 	mkdir -p "$BACKUPDIR/daily"
