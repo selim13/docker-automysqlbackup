@@ -1,3 +1,9 @@
+automysqlbackup (2.6+debian.3-2) unstable; urgency=medium
+
+  * Added virtual-mysql-client as possible dependency (Closes: #732878).
+
+ -- Thomas Goirand <zigo@debian.org>  Wed, 23 Jul 2014 07:40:58 +0000
+
 automysqlbackup (2.6+debian.3-1) unstable; urgency=high
 
   * Fixes: Code injection via unsafe database names inside eval calls, thanks
