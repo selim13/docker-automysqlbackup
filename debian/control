@@ -11,7 +11,7 @@ Homepage: http://sourceforge.net/projects/automysqlbackup/
 Package: automysqlbackup
 Architecture: all
 Recommends: mutt
-Depends: ${misc:Depends}, mysql-client | virtual-mysql-client
+Depends: ${misc:Depends}, mysql-client | virtual-mysql-client, bsd-mailx | mailx
 Description: daily, weekly and monthly backup for your MySQL database
  automysqlbackup creates backup every day, week and month for all of your MySQL
  database, to a configured folder. There's nothing to do but to install this
