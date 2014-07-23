@@ -1,5 +1,10 @@
-automysqlbackup (2.6+debian.3-2) unstable; urgency=medium
+automysqlbackup (2.6+debian.4-1) unstable; urgency=medium
 
+  * New upstream release:
+    - Fixed mutt command line (Closes: #701765)
+    - Added --events to the OPT (Closes: #721877)
+    - Fixed /var/lib/automysqlbackup file permission to be o-x and o-r
+      (Closes: #729619)
   * Added virtual-mysql-client as possible dependency (Closes: #732878).
   * Standards-Version: is now 3.9.5.
   * Added upstream-tag = %(version)s in debian/gbp.conf.
