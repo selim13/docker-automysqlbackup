@@ -354,7 +354,7 @@ VER=2.5									# Version Number
 LOGFILE=$BACKUPDIR/$DBHOST-`date +%N`.log		# Logfile Name
 LOGERR=$BACKUPDIR/ERRORS_$DBHOST-`date +%N`.log		# Logfile Name
 BACKUPFILES=""
-OPT="--quote-names"			# OPT string for use with mysqldump ( see man mysqldump )
+OPT="--quote-names --events"			# OPT string for use with mysqldump ( see man mysqldump )
 
 # Add --compress mysqldump option to $OPT
 if [ "$COMMCOMP" = "yes" ];
@@ -379,6 +379,9 @@ if [ ! -e "$BACKUPDIR" ]		# Check Backup Directory exists.
 	then
 	mkdir -p "$BACKUPDIR"
 fi
+
+chmod o-x ${BACKUPDIR}
+chmod o-r ${BACKUPDIR}
 
 if [ ! -e "$BACKUPDIR/daily" ]		# Check Daily Directory exists.
 	then
@@ -672,7 +675,7 @@ then
 	if [ $MAXATTSIZE -ge $ATTSIZE ]
 	then
 		BACKUPFILES=`echo "$BACKUPFILES" | sed -e "s# # -a #g"`	#enable multiple attachments
-		mutt -s "$ERRORNOTE MySQL Backup Log and SQL Files for $HOST - $DATE" $BACKUPFILES $MAILADDR < $LOGFILE		#send via mutt
+		mutt -s "$ERRORNOTE MySQL Backup Log and SQL Files for $HOST - $DATE" $BACKUPFILES -- $MAILADDR < $LOGFILE		#send via mutt
 	else
 		cat "$LOGFILE" | mail -s "WARNING! - MySQL Backup exceeds set maximum attachment size on $HOST - $DATE" $MAILADDR
 	fi
