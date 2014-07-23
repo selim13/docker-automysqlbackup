@@ -4,6 +4,7 @@ automysqlbackup (2.6+debian.3-2) unstable; urgency=medium
   * Standards-Version: is now 3.9.5.
   * Added upstream-tag = %(version)s in debian/gbp.conf.
   * VCS fields now canonical.
+  * Implemented get-orig-source using git archive.
 
  -- Thomas Goirand <zigo@debian.org>  Wed, 23 Jul 2014 07:40:58 +0000
 
