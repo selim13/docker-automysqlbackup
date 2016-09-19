@@ -277,8 +277,8 @@ DOM=`date +%d`							# Date of the Month e.g. 27
 M=`date +%B`							# Month e.g January
 W=`date +%V`							# Week Number e.g 37
 VER=2.5									# Version Number
-LOGFILE=$BACKUPDIR/$DBHOST-`date +%N`.log		# Logfile Name
-LOGERR=$BACKUPDIR/ERRORS_$DBHOST-`date +%N`.log		# Logfile Name
+LOGFILE=/dev/stdout		# Logfile Name
+LOGERR=/dev/sdrerr		# Logfile Name
 BACKUPFILES=""
 OPT="--quote-names --events"			# OPT string for use with mysqldump ( see man mysqldump )
 
@@ -588,60 +588,11 @@ fi
 exec 1>&6 6>&-      # Restore stdout and close file descriptor #6.
 exec 1>&7 7>&-      # Restore stdout and close file descriptor #7.
 
-if [ "$MAILCONTENT" = "files" ]
-then
-	if [ -s "$LOGERR" ]
-	then
-		# Include error log if is larger than zero.
-		BACKUPFILES="$BACKUPFILES $LOGERR"
-		ERRORNOTE="WARNING: Error Reported - "
-	fi
-	#Get backup size
-	ATTSIZE=`du -c $BACKUPFILES | grep "[[:digit:][:space:]]total$" |sed s/\s*total//`
-	if [ $MAXATTSIZE -ge $ATTSIZE ]
-	then
-		BACKUPFILES=`echo "$BACKUPFILES" | sed -e "s# # -a #g"`	#enable multiple attachments
-		mutt -s "$ERRORNOTE MySQL Backup Log and SQL Files for $HOST - $DATE" $BACKUPFILES -- $MAILADDR < $LOGFILE		#send via mutt
-	else
-		cat "$LOGFILE" | mail -s "WARNING! - MySQL Backup exceeds set maximum attachment size on $HOST - $DATE" $MAILADDR
-	fi
-elif [ "$MAILCONTENT" = "log" ]
-then
-	cat "$LOGFILE" | mail -s "MySQL Backup Log for $HOST - $DATE" $MAILADDR
-	if [ -s "$LOGERR" ]
-		then
-			cat "$LOGERR" | mail -s "ERRORS REPORTED: MySQL Backup error Log for $HOST - $DATE" $MAILADDR
-	fi	
-elif [ "$MAILCONTENT" = "quiet" ]
-then
-	if [ -s "$LOGERR" ]
-		then
-			cat "$LOGERR" | mail -s "ERRORS REPORTED: MySQL Backup error Log for $HOST - $DATE" $MAILADDR
-			cat "$LOGFILE" | mail -s "MySQL Backup Log for $HOST - $DATE" $MAILADDR
-	fi
-else
-	if [ -s "$LOGERR" ]
-		then
-			cat "$LOGFILE"
-			echo
-			echo "###### WARNING ######"
-			echo "Errors reported during AutoMySQLBackup execution.. Backup failed"
-			echo "Error log below.."
-			cat "$LOGERR"
-	else
-		cat "$LOGFILE"
-	fi	
-fi
-
 if [ -s "$LOGERR" ]
 	then
 		STATUS=1
 	else
 		STATUS=0
 fi
-
-# Clean up Logfile
-rm -f "$LOGFILE"
-rm -f "$LOGERR"
 
 exit $STATUS
