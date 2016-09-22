@@ -1,6 +1,6 @@
 # Docker AutoMySQLBackup
 
-An image for creating and managing scheduled MySQL backups.
+A lightweight, Alpine linux based image for creating and managing scheduled MySQL backups.
 Runs a slightly modified [AutoMySQLBackup](https://sourceforge.net/projects/automysqlbackup/) utility.
 
 ## Version
@@ -36,8 +36,7 @@ Container will create dumps of all datebases from MySQL inside `/var/lib/automys
 
 To run container in scheduled mode, populate `CRON_SCHEDULE` environment variable with a cron expression.
 ```console
-docker run -t
-           --link some-mysql:some-mysql \
+docker run --link some-mysql:some-mysql \
            -v '/var/lib/automysqlbackup:/backup' \ 
            -e DBHOST=some-mysql \
            -e USERNAME=root \
