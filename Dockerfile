@@ -11,7 +11,21 @@ RUN chmod +x /usr/local/bin/automysqlbackup /usr/local/bin/start.sh
 
 RUN mkdir -p /etc/default
 
+WORKDIR /tmp
+ENV GOPATH=/tmp/golang
+RUN apk add --no-cache --virtual .build-deps git make go \
+    && git clone https://github.com/odise/go-cron.git \
+    && cd go-cron \
+    && go get github.com/odise/go-cron \
+    && make \
+    && cp out/linux/go-cron /usr/local/bin \
+    && chmod u+x /usr/local/bin/go-cron \
+    && cd /tmp \
+    && rm -rf golang go-cron \
+    && apk del .build-deps
+
 VOLUME /backup
+WORKDIR /backup
 
 ENV USERNAME=           \
     PASSWORD=           \

@@ -3,7 +3,7 @@
 set -e
 
 if [ "${CRON_SCHEDULE}" ]; then
-    echo "${CRON_SCHEDULE} automysqlbackup" > /var/spool/cron/crontabs/root && crond -f -l 0
+    exec go-cron -s "0 ${CRON_SCHEDULE}" -- automysqlbackup
 else
     exec automysqlbackup
 fi
