@@ -2,7 +2,7 @@ FROM alpine:latest
 
 MAINTAINER Dmitry Seleznyov <selim013@gmail.com>
 
-RUN apk add --no-cache bash mysql-client
+RUN apk add --no-cache mysql-client
 
 # Install go-cron
 WORKDIR /tmp
