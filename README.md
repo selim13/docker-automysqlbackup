@@ -137,4 +137,5 @@ Backup of stored procedures and routines
 Default value: `yes`
 
 ## License
-Similar to the original automysqlbackup script, all sources for this image are licensed under GPLv2.
+Similar to the original automysqlbackup script, all sources for this image 
+are licensed under [GPL-2.0](./LICENSE.txt).
