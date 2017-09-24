@@ -11,7 +11,7 @@ install:
 before_script:
   - docker network create dbtest
   - docker run -d --name some-mysql --network dbtest -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:latest
-  - sleep 5
+  - sleep 10
 
 script:
   - docker run --network dbtest -v '/var/lib/automysqlbackup:/backup' -e DBHOST=some-mysql -e DBNAMES=all -e USERNAME=root -e PASSWORD=my-secret-pw -e DBNAMES=all automysqlbackup:test
