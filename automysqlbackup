@@ -587,12 +587,3 @@ fi
 #Clean up IO redirection
 exec 1>&6 6>&-      # Restore stdout and close file descriptor #6.
 exec 1>&7 7>&-      # Restore stdout and close file descriptor #7.
-
-if [ -s "$LOGERR" ]
-	then
-		STATUS=1
-	else
-		STATUS=0
-fi
-
-exit $STATUS
