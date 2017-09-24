@@ -1,5 +1,5 @@
 # Build
-FROM golang:1.9
+FROM golang:1.9 as builder
 
 RUN go get -d -v github.com/odise/go-cron
 WORKDIR /go/src/github.com/odise/go-cron
@@ -11,7 +11,7 @@ MAINTAINER Dmitry Seleznyov <selim013@gmail.com>
 
 RUN apk add --no-cache mysql-client
 
-COPY --from=0 /go/src/github.com/odise/go-cron/go-cron /usr/local/bin
+COPY --from=builder /go/src/github.com/odise/go-cron/go-cron /usr/local/bin
 COPY start.sh /usr/local/bin
 COPY automysqlbackup /usr/local/bin
 
