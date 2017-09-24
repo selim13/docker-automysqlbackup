@@ -16,44 +16,50 @@ Custom modifications:
 
 # Image usage
 
-Let's start a MySQL container as an example.
+Let's create a bridge network and start a MySQL container as an example.
 ```console
-docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:latest
+docker network create dbtest
+docker run --name some-mysql --network dbtest \
+    -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:latest
 ```
 
 For the basic one-shot backup, you can run a container like this:
 ```console
-docker run --link some-mysql:some-mysql \
-           -v '/var/lib/automysqlbackup:/backup' \ 
-           -e DBHOST=some-mysql \
-           -e USERNAME=root \
-           -e PASSWORD=my-secret-pw \ 
-           -e DBNAMES=all \
-           automysqlbackup
+docker run --network dbtest \
+    -v '/var/lib/automysqlbackup:/backup' \
+    -e DBHOST=some-mysql \
+    -e DBNAMES=all \
+    -e USERNAME=root \
+    -e PASSWORD=my-secret-pw \
+    -e DBNAMES=all \
+    automysqlbackup
 ```
 
 Container will create dumps of all datebases from MySQL inside `/var/lib/automysqlbackup` directory and exit.
 
-To run container in scheduled mode, populate `CRON_SCHEDULE` environment variable with a cron expression.
+To run container in a scheduled mode, populate `CRON_SCHEDULE` environment variable with a cron expression.
 ```console
-docker run --link some-mysql:some-mysql \
-           -v '/var/lib/automysqlbackup:/backup' \ 
-           -e DBHOST=some-mysql \
-           -e USERNAME=root \
-           -e PASSWORD=my-secret-pw \ 
-           -e DBNAMES=all \
-           -e CRON_SCHEDULE="0 0 * * *" \
-           automysqlbackup
+docker run --network dbtest \
+    -v '/var/lib/automysqlbackup:/backup' \
+    -e DBHOST=some-mysql \
+    -e DBNAMES=all \
+    -e USERNAME=root \
+    -e PASSWORD=my-secret-pw \
+    -e DBNAMES=all \
+    -e CRON_SCHEDULE="0 0 * * *" \
+    automysqlbackup
 ```
 
 Instead of passing environment variables though docker, you can also mount a file with their declarations
 as volume. See `defaults` file in this image's git repository for the example.
 ```console
-docker run --link some-mysql:some-mysql \
-           -v '/var/lib/automysqlbackup:/backup' \ 
-           -v '/etc/default/automysqlbackup:/etc/default/automysqlbackup:ro'
-           automysqlbackup
+docker run --network dbtest \
+    -v '/var/lib/automysqlbackup:/backup' \
+    -v '/etc/default/automysqlbackup:/etc/default/automysqlbackup:ro' \
+    automysqlbackup
 ```
+
+For the example of using this image with docker-compose, see `docker-compose.yml` file in the image's repository.
 
 ## Environment variables
 
