@@ -6,7 +6,6 @@ volumes:
 
 services:
   mysql:
-    container_name: 'mysql'
     image: mysql:latest
     volumes:
       - 'mysql-data:/var/lib/mysql'
@@ -14,7 +13,6 @@ services:
       MYSQL_ROOT_PASSWORD: 'my-secret-pw'
 
   automysqlbackup:
-    container_name: 'automysqlbackup'
     image: selim13/automysqlbackup
     volumes:
       - 'mysql-backups-data:/var/lib/mysql'
