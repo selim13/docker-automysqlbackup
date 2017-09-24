@@ -3,7 +3,7 @@ FROM golang:1.9
 
 RUN go get -d -v github.com/odise/go-cron
 WORKDIR /go/src/github.com/odise/go-cron
-RUN GOOS=linux go build -o go-cron bin/go-cron.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o go-cron bin/go-cron.go
 
 # Package
 FROM alpine:3.6
