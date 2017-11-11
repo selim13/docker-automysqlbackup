@@ -334,11 +334,9 @@ rm -f "$BACKUPDIR"/latest/*
 fi
 
 # IO redirection for logging.
-touch $LOGFILE
 exec 6>&1           # Link file descriptor #6 with stdout.
                     # Saves stdout.
 exec > $LOGFILE     # stdout replaced with file $LOGFILE.
-touch $LOGERR
 exec 7>&2           # Link file descriptor #7 with stderr.
                     # Saves stderr.
 exec 2> $LOGERR     # stderr replaced with file $LOGERR.
