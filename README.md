@@ -59,7 +59,15 @@ docker run --network dbtest \
     automysqlbackup
 ```
 
-For the example of using this image with docker-compose, see `docker-compose.yml` file in the image's repository.
+# Usage with docker-compose
+
+For the example of using this image with docker-compose, see [docker-compose.yml](https://github.com/selim13/docker-automysqlbackup/blob/master/docker-compose.yml) file in the image's repository.
+
+Quick tips:
+* You can call `automysqlbackup` binary directly for the manual backup: `docker-compose exec mysqlbackup automysqlbackup`
+* Use only YAML dictionary for passing CRON_SCHEDULE environment variable `CRON_SCHEDULE: "0 0 * * *"`
+as YAML sequence `- CRON_SCHEDULE="0 * * * *"` will preserve quotes breaking go-cron (Issue #1).
+
 
 ## Environment variables
 
