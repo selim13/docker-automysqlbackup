@@ -84,6 +84,9 @@ Password to access the MySQL server.
 ### DBHOST
 Host name (or IP address) of MySQL server.
 
+### DBPORT
+Port of MySQL server.
+
 ### DBNAMES
 List of space separated database names for Daily/Weekly Backup. Set to `all` for all databases.
 

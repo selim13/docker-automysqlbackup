@@ -357,7 +357,7 @@ dbdump () {
 	if [ -z "${USERNAME}" -o -z "${PASSWORD}" ] ; then
 		mysqldump --defaults-file=/etc/mysql/debian.cnf $NEWOPT $1 > $2
 	else
-		mysqldump --user=$USERNAME --password=$PASSWORD --host=$DBHOST $NEWOPT $1 > $2
+		mysqldump --user=$USERNAME --password=$PASSWORD --host=$DBHOST --port=$DBPORT $NEWOPT $1 > $2
 	fi
 	return 0
 }
@@ -423,7 +423,7 @@ if [ "$DBNAMES" = "all" ]; then
 	if [ -z "${USERNAME}" -o -z "${PASSWORD}" ] ; then
         DBNAMES="`mysql --defaults-file=/etc/mysql/debian.cnf --batch --skip-column-names -e "show databases"| sed 's/ /%/g'`"
 	else
-        DBNAMES="`mysql --user=$USERNAME --password=$PASSWORD --host=$DBHOST --batch --skip-column-names -e "show databases"| sed 's/ /%/g'`"
+        DBNAMES="`mysql --user=$USERNAME --password=$PASSWORD --host=$DBHOST --port=$DBPORT --batch --skip-column-names -e "show databases"| sed 's/ /%/g'`"
 	fi
 
 	# If DBs are excluded

@@ -12,6 +12,9 @@ PASSWORD=my-secret-pw
 # Host name (or IP address) of MySQL server e.g localhost
 DBHOST=some-mysql
 
+# Port of MySQL server
+DBPORT=3306
+
 # List of DBNAMES for Daily/Weekly Backup e.g. "DB1 DB2 DB3"
 # Note that it's absolutely normal that the db named "mysql" is not in this
 # list, as it's added later by the script. See the MDBNAMES directives below
