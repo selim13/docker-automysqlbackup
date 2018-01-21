@@ -3,6 +3,11 @@
 A lightweight, Alpine linux based image for creating and managing scheduled MySQL backups.
 Runs a slightly modified [AutoMySQLBackup](https://sourceforge.net/projects/automysqlbackup/) utility.
 
+## Supported tags and respective `Dockerfile` links
+
+- [`latest` (*Dockerfile*)](https://github.com/selim13/docker-automysqlbackup/blob/master/Dockerfile)
+- [`1.0` (*Dockerfile*)](https://github.com/selim13/docker-automysqlbackup/blob/1.0/Dockerfile)
+
 ## Version
 
 This image uses AutoMySQLBackup 2.5 from Debian Linux source repository as a base, branched at `2.6+debian.4-1` tag.
