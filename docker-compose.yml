@@ -15,7 +15,7 @@ services:
   mysqlbackup:
     image: selim13/automysqlbackup
     volumes:
-      - "mysql-backups-data:/var/lib/mysql"
+      - "mysql-backups-data:/backup"
     environment:
       USERNAME: root
       PASSWORD: "my-secret-pw"
