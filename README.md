@@ -19,6 +19,20 @@ Custom modifications:
 - removed error logs mailing code
 - made default configuration more suitable for docker container 
 
+# MySQL 8 support
+
+Currently it is not possible to use this image with the default configuration
+of MySQL 8. Alpine linux comes with MariaDB's version of mysqldump which doesn't
+support newly introduced caching_sha2_password authentication method.
+
+As a workaround you can either completely switch mysqld to an old authentication
+method with `default-authentication-plugin=mysql_native_password` option or
+change authentication method for a specific user:
+
+```sql
+ALTER USER 'username' IDENTIFIED WITH mysql_native_password BY 'password';
+```
+
 # Image usage
 
 Let's create a bridge network and start a MySQL container as an example.
