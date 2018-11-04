@@ -6,7 +6,7 @@ volumes:
 
 services:
   mysql:
-    image: mysql:latest
+    image: mysql:5.7
     volumes:
       - "mysql-data:/var/lib/mysql"
     environment:
