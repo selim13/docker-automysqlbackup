@@ -38,7 +38,6 @@ RUN chmod +x /usr/local/bin/go-cron /usr/local/bin/automysqlbackup /usr/local/bi
 
 RUN mkdir -p /etc/default
 
-VOLUME /backup
 WORKDIR /backup
 
 ENV USERNAME=           \
