@@ -26,6 +26,7 @@ ENV USERNAME=           \
     PASSWORD=           \
     DBHOST=localhost    \
     DBNAMES=all         \
+    DBPORT=3306         \
     BACKUPDIR="/backup" \
     MDBNAMES=           \
     DBEXCLUDE=""        \
