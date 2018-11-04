@@ -13,7 +13,7 @@ services:
       MYSQL_ROOT_PASSWORD: "my-secret-pw"
 
   mysqlbackup:
-    image: selim13/automysqlbackup:2.6-1debian
+    image: selim13/automysqlbackup:2.6-1-debian
     volumes:
       - "mysql-backups-data:/backup"
     environment:
