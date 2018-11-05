@@ -30,13 +30,14 @@ RUN apt-get update \
     && apt-get install -y mysql-community-client-core="${MYSQL_VERSION}" \
     && rm -rf /var/lib/apt/lists/*
 
+RUN mkdir -p /etc/default /etc/mysql
+
 COPY --from=builder /go/src/github.com/odise/go-cron/go-cron /usr/local/bin
 COPY start.sh /usr/local/bin
 COPY automysqlbackup /usr/local/bin
+COPY my.cnf /etc/mysql
 
 RUN chmod +x /usr/local/bin/go-cron /usr/local/bin/automysqlbackup /usr/local/bin/start.sh
-
-RUN mkdir -p /etc/default
 
 WORKDIR /backup
 
