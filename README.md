@@ -6,7 +6,7 @@ Runs a slightly modified [AutoMySQLBackup](https://sourceforge.net/projects/auto
 ## Supported tags and respective `Dockerfile` links
 
 - [`latest` (*Dockerfile*)](https://github.com/selim13/docker-automysqlbackup/blob/master/Dockerfile)
-- [`2.6-2-debian` (*Dockerfile*)](https://github.com/selim13/docker-automysqlbackup/blob/2.6-2-debian/Dockerfile)
+- [`2.6-3-debian` (*Dockerfile*)](https://github.com/selim13/docker-automysqlbackup/blob/2.6-3-debian/Dockerfile)
 - [`2.6-1-alpine` (*Dockerfile*)](https://github.com/selim13/docker-automysqlbackup/blob/2.6-1-alpine/Dockerfile) without MySQL 8 support
 
 ## Version
