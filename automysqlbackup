@@ -278,7 +278,7 @@ M=`date +%B`							# Month e.g January
 W=`date +%V`							# Week Number e.g 37
 VER=2.5									# Version Number
 LOGFILE=/dev/stdout		# Logfile Name
-LOGERR=/dev/sdrerr		# Logfile Name
+LOGERR=/dev/stderr		# Logfile Name
 BACKUPFILES=""
 OPT="--quote-names --events"			# OPT string for use with mysqldump ( see man mysqldump )
 
