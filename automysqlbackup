@@ -504,7 +504,7 @@ echo ======================================================================
 	else
 		echo Daily Backup of Database \( $DB \)
 		echo Rotating last weeks Backup...
-		rm -fv "$BACKUPDIR/daily/$DB"/*."$DOW".sql.*
+		rm -fv "$BACKUPDIR/daily/$DB"/*."$DOW".sql*
 		echo
 			dbdump "$DB" "$BACKUPDIR/daily/$DB/${DB}_$DATE.$DOW.sql"
 			compression "$BACKUPDIR/daily/$DB/${DB}_$DATE.$DOW.sql"
