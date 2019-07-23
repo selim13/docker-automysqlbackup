@@ -8,8 +8,8 @@ RUN go get -d -v github.com/odise/go-cron \
         && CGO_ENABLED=0 GOOS=linux go build -o go-cron bin/go-cron.go
 
 # Package
-FROM debian:stretch-slim
-MAINTAINER Dmitry Seleznyov <selim013@gmail.com>
+FROM debian:buster-slim
+LABEL maintainer="selim013@gmail.com"
 
 RUN apt-get update && apt-get install -y --no-install-recommends gnupg dirmngr bzip2 && rm -rf /var/lib/apt/lists/*
 
