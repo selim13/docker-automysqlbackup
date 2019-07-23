@@ -1,9 +1,11 @@
 # Build
-FROM golang:1.9 as builder
+FROM golang:1.12 as builder
 
-RUN go get -d -v github.com/odise/go-cron
-WORKDIR /go/src/github.com/odise/go-cron
-RUN CGO_ENABLED=0 GOOS=linux go build -o go-cron bin/go-cron.go
+RUN go get -d -v github.com/odise/go-cron \
+        && cd /go/src/github.com/robfig/cron \
+        && git checkout tags/v1.2.0 \
+        && cd /go/src/github.com/odise/go-cron \
+        && CGO_ENABLED=0 GOOS=linux go build -o go-cron bin/go-cron.go
 
 # Package
 FROM debian:stretch-slim
@@ -24,12 +26,11 @@ RUN set -uex; \
 	apt-key list > /dev/null
 
 ENV MYSQL_MAJOR 8.0
-ENV MYSQL_VERSION 8.0.14-1debian9
 
 RUN echo "deb http://repo.mysql.com/apt/debian/ stretch mysql-${MYSQL_MAJOR}" > /etc/apt/sources.list.d/mysql.list
 
 RUN apt-get update \
-    && apt-get install -y mysql-community-client-core="${MYSQL_VERSION}" \
+    && apt-get install -y mysql-community-client-core \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /etc/default /etc/mysql
