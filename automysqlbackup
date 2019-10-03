@@ -348,7 +348,7 @@ exec 2> $LOGERR     # stderr replaced with file $LOGERR.
 dbdump () {
 	touch $2
 	chmod 600 $2
-	if [ $1 = "information_schema" ] ; then
+	if [ $1 = "information_schema" -o $1 = "mysql" ] ; then
 		NEWOPT="--skip-opt ${OPT}"
 	else
 		NEWOPT="--opt $OPT"
