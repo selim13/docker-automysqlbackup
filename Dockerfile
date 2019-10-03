@@ -63,6 +63,7 @@ ENV USERNAME=           \
     PREBACKUP=          \
     POSTBACKUP=         \
     ROUTINES=yes        \
+    EXTRA_OPTS=         \
     CRON_SCHEDULE=
 
 CMD ["start.sh"]

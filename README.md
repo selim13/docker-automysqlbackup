@@ -78,7 +78,6 @@ as YAML sequence `- CRON_SCHEDULE="0 * * * *"` will preserve quotes breaking go-
 ## Environment variables
 
 ### CRON_SCHEDULE
-
 If set to cron expression, container will start a cron daemon for scheduled backups. 
 
 ### USERNAME
@@ -158,6 +157,9 @@ Command run after backups
 Backup of stored procedures and routines
 
 Default value: `yes`
+
+### EXTRA_OPTS
+Pass any arbitrary flags to mysqldump, e.g. `--single-transaction`.
 
 ## License
 Similar to the original automysqlbackup script, all sources for this image 

@@ -300,11 +300,18 @@ if [ "$MAX_ALLOWED_PACKET" ];
 		OPT="$OPT --max_allowed_packet=$MAX_ALLOWED_PACKET"
 	fi
 
+# Pass extra options for mysqldump
+if [ "$EXTRA_OPTS" ]		
+	then
+	OPT="$OPT $EXTRA_OPTS"
+fi
+
 # Create required directories
 if [ ! -e "$BACKUPDIR" ]		# Check Backup Directory exists.
 	then
 	mkdir -p "$BACKUPDIR"
 fi
+
 
 chmod o-x ${BACKUPDIR}
 chmod o-r ${BACKUPDIR}

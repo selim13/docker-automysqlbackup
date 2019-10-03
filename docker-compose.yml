@@ -1,4 +1,4 @@
-version: "2"
+version: "2.4"
 
 volumes:
   mysql-data: {}
@@ -22,5 +22,6 @@ services:
       DBHOST: mysql
       DBEXCLUDE: "performance_schema information_schema"
       CRON_SCHEDULE: "0 0 * * *"
+      EXTRA_OPTS: "--single-transaction"
     depends_on:
       - mysql

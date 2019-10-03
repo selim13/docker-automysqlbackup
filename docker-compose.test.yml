@@ -43,6 +43,7 @@ services:
       DBHOST: mysql
       DBEXCLUDE: "performance_schema information_schema"
       CRON_SCHEDULE: "0 0 * * *"
+      EXTRA_OPTS: "--single-transaction"
     depends_on:
       mysql:
         condition: service_healthy
@@ -57,6 +58,7 @@ services:
       DBHOST: mariadb
       DBEXCLUDE: "performance_schema information_schema"
       CRON_SCHEDULE: "0 0 * * *"
+      EXTRA_OPTS: "--single-transaction"
     depends_on:
       mariadb:
         condition: service_healthy
