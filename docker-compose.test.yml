@@ -1,0 +1,62 @@
+version: "2.4"
+
+volumes:
+  mysql-data: {}  
+  mysql-backups-data: {}
+  mariadb-data: {}  
+  mariadb-backups-data: {}
+
+services:
+  mysql:
+    image: mysql:8
+    volumes:
+      - "./testdb-init.sql:/docker-entrypoint-initdb.d/testdb-init.sql"
+      - "mysql-data:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: "my-secret-pw"
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=my-secret-pw --execute \"SHOW DATABASES;\""
+      interval: 2s
+      timeout: 20s
+      retries: 100
+
+  mariadb:
+    image: mariadb:10
+    volumes:
+      - "./testdb-init.sql:/docker-entrypoint-initdb.d/testdb-init.sql"
+      - "mariadb-data:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: "my-secret-pw"
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=my-secret-pw --execute \"SHOW DATABASES;\""
+      interval: 2s
+      timeout: 20s
+      retries: 100
+
+  mysqlbackup-mysql:
+    build: .
+    volumes:      
+      - "mysql-backups-data:/backup"
+    environment:
+      USERNAME: root
+      PASSWORD: "my-secret-pw"
+      DBHOST: mysql
+      DBEXCLUDE: "performance_schema information_schema"
+      CRON_SCHEDULE: "0 0 * * *"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysqlbackup-mariadb:
+    build: .
+    volumes:
+      - "mariadb-backups-data:/backup"
+    environment:
+      USERNAME: root
+      PASSWORD: "my-secret-pw"
+      DBHOST: mariadb
+      DBEXCLUDE: "performance_schema information_schema"
+      CRON_SCHEDULE: "0 0 * * *"
+    depends_on:
+      mariadb:
+        condition: service_healthy
