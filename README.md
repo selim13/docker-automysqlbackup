@@ -161,6 +161,16 @@ Default value: `yes`
 ### EXTRA_OPTS
 Pass any arbitrary flags to mysqldump, e.g. `--single-transaction`.
 
+## Docker Secrets
+
+As an alternative to passing sensitive information via environment variables, `_FILE` may be appended to some of the previously listed environment variables, causing the initialization script to load the values for those variables from files present in the container. In particular, this can be used to load passwords from Docker secrets stored in `/run/secrets/<secret_name>` files. For example:
+
+```console
+docker run --name automysqlbackup -e USERNAME=root -e PASSWORD_FILE=/run/secrets/mysql_root_password automysqlbackup
+```
+
+Currently, this is only supported for `USERNAME` and `PASSWORD`.
+
 ## License
 Similar to the original automysqlbackup script, all sources for this image 
 are licensed under [GPL-2.0](./LICENSE.txt).
