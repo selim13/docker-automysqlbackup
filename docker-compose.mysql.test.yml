@@ -8,8 +8,7 @@ services:
   mysql:
     image: mysql:8
     volumes:
-      - "./testdb-init.sql:/docker-entrypoint-initdb.d/testdb-init.sql"
-      - "mysql-data:/var/lib/mysql"
+      - "./test/testdb-init.sql:/docker-entrypoint-initdb.d/testdb-init.sql"
     environment:
       MYSQL_ROOT_PASSWORD: "my-secret-pw"
     healthcheck:
@@ -18,7 +17,7 @@ services:
       timeout: 20s
       retries: 100
 
-  sut:
+  automysqlbackup:
     build: .
     volumes:      
       - "mysql-backups-data:/backup"
@@ -27,9 +26,18 @@ services:
       PASSWORD: "my-secret-pw"
       DBHOST: mysql
       DBEXCLUDE: "performance_schema information_schema"
+      IGNORE_TABLES: "testdb.ignoretable"
       EXTRA_OPTS: "--single-transaction"
       CRON_SCHEDULE: "0 0 * * *"
     depends_on:
       mysql:
         condition: service_healthy 
-    command: run_tests.sh
+    command: bash -c "rm -rf /backup/* && automysqlbackup"
+
+  sut:
+    build: ./test
+    volumes:      
+      - "mysql-backups-data:/backup"
+    depends_on:
+      - automysqlbackup
+    command: bash -c "wait_to_finish.sh automysqlbackup && bats /usr/local/bin/automysqlbackup.bats"
