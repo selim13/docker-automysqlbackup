@@ -54,6 +54,7 @@ ENV USERNAME=           \
     BACKUPDIR="/backup" \
     MDBNAMES=           \
     DBEXCLUDE=""        \
+    IGNORE_TABLES=""     \
     CREATE_DATABASE=yes \
     SEPDIR=yes          \
     DOWEEKLY=6          \

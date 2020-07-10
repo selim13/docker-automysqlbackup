@@ -111,6 +111,9 @@ Will mirror DBNAMES if DBNAMES set to `all`.
 ### DBEXCLUDE
 List of DBNAMES to **exclude** if DBNAMES are set to all (must be in " quotes).
 
+### IGNORE_TABLES
+List of space separated table names in a format of `db_name.tbl_name` to exclude from backup (must be in " quotes).
+
 ### CREATE_DATABASE
 Include CREATE DATABASE in backup?
 

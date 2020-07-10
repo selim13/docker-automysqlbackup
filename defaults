@@ -58,6 +58,10 @@ MDBNAMES="mysql $DBNAMES"
 # List of DBNAMES to EXLUCDE if DBNAMES are set to all (must be in " quotes)
 DBEXCLUDE=""
 
+# List of space separated table names in a format of db_name.tbl_name 
+# to exclude from backup (must be in " quotes).
+IGNORE_TABLES=""
+
 # Include CREATE DATABASE in backup?
 CREATE_DATABASE=yes
 

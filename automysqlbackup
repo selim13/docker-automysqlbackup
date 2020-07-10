@@ -425,6 +425,11 @@ else
 	HOST=$DBHOST
 fi
 
+for ignore in $IGNORE_TABLES
+do
+	OPT="$OPT --ignore-table=$ignore"
+done
+
 # If backing up all DBs on the server
 if [ "$DBNAMES" = "all" ]; then
 	if [ -z "${USERNAME}" -o -z "${PASSWORD}" ] ; then
