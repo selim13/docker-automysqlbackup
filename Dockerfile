@@ -30,7 +30,7 @@ ENV MYSQL_MAJOR 8.0
 RUN echo "deb http://repo.mysql.com/apt/debian/ buster mysql-${MYSQL_MAJOR}" > /etc/apt/sources.list.d/mysql.list
 
 RUN apt-get update \
-    && apt-get install -y mysql-community-client \
+    && apt-get install -y mysql-community-client-core \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /etc/default /etc/mysql
