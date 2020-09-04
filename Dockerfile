@@ -27,7 +27,7 @@ RUN set -uex; \
 
 ENV MYSQL_MAJOR 8.0
 
-RUN echo "deb http://repo.mysql.com/apt/debian/ stretch mysql-${MYSQL_MAJOR}" > /etc/apt/sources.list.d/mysql.list
+RUN echo "deb http://repo.mysql.com/apt/debian/ buster mysql-${MYSQL_MAJOR}" > /etc/apt/sources.list.d/mysql.list
 
 RUN apt-get update \
     && apt-get install -y mysql-community-client-core \
@@ -53,7 +53,7 @@ ENV USERNAME=           \
     BACKUPDIR="/backup" \
     MDBNAMES=           \
     DBEXCLUDE=""        \
-    IGNORE_TABLES=""     \
+    IGNORE_TABLES=""    \
     CREATE_DATABASE=yes \
     SEPDIR=yes          \
     DOWEEKLY=6          \
