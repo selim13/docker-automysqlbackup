@@ -6,14 +6,14 @@ volumes:
 
 services:
   mysql:
-    image: mysql:8.0
+    image: mysql:5.7
     volumes:
       - "mysql-data:/var/lib/mysql"
     environment:
       MYSQL_ROOT_PASSWORD: "my-secret-pw"
 
   mysqlbackup:
-    image: selim13/automysqlbackup:2.6-6-debian
+    image: selim13/automysqlbackup:2.6-9-mysql5-debian
     volumes:
       - "mysql-backups-data:/backup"
     environment:

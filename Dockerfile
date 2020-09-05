@@ -2,10 +2,10 @@
 FROM golang:1.12 as builder
 
 RUN go get -d -v github.com/odise/go-cron \
-        && cd /go/src/github.com/robfig/cron \
-        && git checkout tags/v1.2.0 \
-        && cd /go/src/github.com/odise/go-cron \
-        && CGO_ENABLED=0 GOOS=linux go build -o go-cron bin/go-cron.go
+    && cd /go/src/github.com/robfig/cron \
+    && git checkout tags/v1.2.0 \
+    && cd /go/src/github.com/odise/go-cron \
+    && CGO_ENABLED=0 GOOS=linux go build -o go-cron bin/go-cron.go
 
 # Package
 FROM debian:buster-slim
@@ -14,23 +14,23 @@ LABEL maintainer="selim013@gmail.com"
 RUN apt-get update && apt-get install -y --no-install-recommends gnupg dirmngr bzip2 && rm -rf /var/lib/apt/lists/*
 
 RUN set -uex; \
-# gpg: key 5072E1F5: public key "MySQL Release Engineering <mysql-build@oss.oracle.com>" imported
-	key='A4A9406876FCBD3C456770C88C718D3B5072E1F5'; \
-	export GNUPGHOME="$(mktemp -d)"; \
-	(gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys "$key" \
-        || gpg --batch --keyserver ipv4.pool.sks-keyservers.net --recv-keys "$key" \
-        || gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$key"); \
-	gpg --batch --export "$key" > /etc/apt/trusted.gpg.d/mysql.gpg; \
-	gpgconf --kill all; \
-	rm -rf "$GNUPGHOME"; \
-	apt-key list > /dev/null
+    # gpg: key 5072E1F5: public key "MySQL Release Engineering <mysql-build@oss.oracle.com>" imported
+    key='A4A9406876FCBD3C456770C88C718D3B5072E1F5'; \
+    export GNUPGHOME="$(mktemp -d)"; \
+    (gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys "$key" \
+    || gpg --batch --keyserver ipv4.pool.sks-keyservers.net --recv-keys "$key" \
+    || gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$key"); \
+    gpg --batch --export "$key" > /etc/apt/trusted.gpg.d/mysql.gpg; \
+    gpgconf --kill all; \
+    rm -rf "$GNUPGHOME"; \
+    apt-key list > /dev/null
 
-ENV MYSQL_MAJOR 8.0
+ENV MYSQL_MAJOR 5.7
 
 RUN echo "deb http://repo.mysql.com/apt/debian/ buster mysql-${MYSQL_MAJOR}" > /etc/apt/sources.list.d/mysql.list
 
 RUN apt-get update \
-    && apt-get install -y mysql-community-client-core \
+    && apt-get install -y mysql-community-client \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /etc/default /etc/mysql
