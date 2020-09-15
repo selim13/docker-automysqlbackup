@@ -37,7 +37,6 @@ RUN mkdir -p /etc/default /etc/mysql
 
 COPY --from=builder /go/src/github.com/odise/go-cron/go-cron /usr/local/bin/
 COPY automysqlbackup start.sh /usr/local/bin/
-COPY my.cnf /etc/mysql/
 
 RUN chmod +x /usr/local/bin/go-cron \
     /usr/local/bin/automysqlbackup \
