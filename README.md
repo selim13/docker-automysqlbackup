@@ -6,7 +6,7 @@ Runs a slightly modified [AutoMySQLBackup](https://sourceforge.net/projects/auto
 ## Supported tags and respective `Dockerfile` links
 
 - [`2.6-9` (_Dockerfile_)](https://github.com/selim13/docker-automysqlbackup/blob/2.6-9/Dockerfile), main image with mysql8 client
-- [`2.6-9-mysql57` (_Dockerfile_)](https://github.com/selim13/docker-automysqlbackup/blob/2.6-9-mysql57/Dockerfile), version with mysql5.7 client
+- [`2.6-9a-mysql57` (_Dockerfile_)](https://github.com/selim13/docker-automysqlbackup/blob/2.6-9a-mysql57/Dockerfile), version with mysql5.7 client
 - [`latest` (_Dockerfile_)](https://github.com/selim13/docker-automysqlbackup/blob/master/Dockerfile) tracks the `master` branch, may be buggy
 
 ## Version
