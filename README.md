@@ -82,114 +82,82 @@ Quick tips:
 
 ## Environment variables
 
-### CRON_SCHEDULE
+- **CRON_SCHEDULE**\
+  If set to cron expression, container will start a cron daemon for scheduled backups.
 
-If set to cron expression, container will start a cron daemon for scheduled backups.
+- **USERNAME**\
+  Username to access the MySQL server.
 
-### USERNAME
+- **PASSWORD**\
+  Password to access the MySQL server.
 
-Username to access the MySQL server.
+- **DBHOST**\
+  Host name (or IP address) of MySQL server.
 
-### PASSWORD
+- **DBPORT**\
+  Port of MySQL server.
 
-Password to access the MySQL server.
+- **DBNAMES**\
+  List of space separated database names for Daily/Weekly Backup. Set to `all` for all databases.\
+  Default value: `all`
 
-### DBHOST
+- **BACKUPDIR**\
+  Backup directory location.
+  Folders inside this one will be created (daily, weekly, etc.), and the subfolders will be database names.\
+  Default value: `/backup`
 
-Host name (or IP address) of MySQL server.
+- **MDBNAMES**\
+  List of space separated database names for Monthly Backups.\
+  Will mirror DBNAMES if DBNAMES set to `all`.
 
-### DBPORT
+- **DBEXCLUDE**\
+  List of DBNAMES to **exclude** if DBNAMES are set to all (must be in " quotes).
 
-Port of MySQL server.
+- **IGNORE_TABLES**\
+  List of space separated table names in a format of `db_name.tbl_name` to exclude from backup (must be in " quotes).
 
-### DBNAMES
+- **CREATE_DATABASE**\
+  Include CREATE DATABASE in backup?\
+  Default value: `yes`
 
-List of space separated database names for Daily/Weekly Backup. Set to `all` for all databases.
+- **SEPDIR**\
+  Separate backup directory and file for each DB? (yes or no).\
+  Default value: `yes`
 
-Default value: `all`
+- **DOWEEKLY**\
+  Which day do you want weekly backups? (1 to 7 where 1 is Monday).\
+  Default value: `6`
 
-### BACKUPDIR
+- **COMP**\
+  Choose Compression type. (gzip or bzip2)\
+  Default value: `gzip`
 
-Backup directory location.
-Folders inside this one will be created (daily, weekly, etc.), and the subfolders will be database names.
+- **COMMCOMP**\
+  Compress communications between backup server and MySQL server?\
+  Default value: `no`
 
-Default value: `/backup`
+- **LATEST**\
+  Additionally keep a copy of the most recent backup in a seperate directory.\
+  Default value: `no`
 
-### MDBNAMES
+- **MAX_ALLOWED_PACKET**\
+  The maximum size of the buffer for client/server communication. e.g. 16MB (maximum is 1GB)
 
-List of space separated database names for Monthly Backups.
+- **SOCKET**\
+  For connections to localhost. Sometimes the Unix socket file must be specified.
 
-Will mirror DBNAMES if DBNAMES set to `all`.
+- **PREBACKUP**\
+  Command to run before backups
 
-### DBEXCLUDE
+- **POSTBACKUP**\
+  Command run after backups
 
-List of DBNAMES to **exclude** if DBNAMES are set to all (must be in " quotes).
+- **ROUTINES**\
+  Backup of stored procedures and routines\
+  Default value: `yes`
 
-### IGNORE_TABLES
-
-List of space separated table names in a format of `db_name.tbl_name` to exclude from backup (must be in " quotes).
-
-### CREATE_DATABASE
-
-Include CREATE DATABASE in backup?
-
-Default value: `yes`
-
-### SEPDIR
-
-Separate backup directory and file for each DB? (yes or no).
-
-Default value: `yes`
-
-### DOWEEKLY
-
-Which day do you want weekly backups? (1 to 7 where 1 is Monday).
-
-Default value: `6`
-
-### COMP
-
-Choose Compression type. (gzip or bzip2)
-
-Default value: `gzip`
-
-### COMMCOMP
-
-Compress communications between backup server and MySQL server?
-
-Default value: `no`
-
-### LATEST
-
-Additionally keep a copy of the most recent backup in a seperate directory.
-
-Default value: `no`
-
-### MAX_ALLOWED_PACKET
-
-The maximum size of the buffer for client/server communication. e.g. 16MB (maximum is 1GB)
-
-### SOCKET
-
-For connections to localhost. Sometimes the Unix socket file must be specified.
-
-### PREBACKUP
-
-Command to run before backups
-
-### POSTBACKUP
-
-Command run after backups
-
-### ROUTINES
-
-Backup of stored procedures and routines
-
-Default value: `yes`
-
-### EXTRA_OPTS
-
-Pass any arbitrary flags to mysqldump, e.g. `--single-transaction`.
+- **EXTRA_OPTS**\
+  Pass any arbitrary flags to mysqldump, e.g. `--single-transaction`.
 
 ## Docker Secrets
 
