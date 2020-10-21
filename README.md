@@ -16,13 +16,15 @@ Original source can be cloned from `git://anonscm.debian.org/users/zigo/automysq
 appropriate [Debian package](https://packages.debian.org/sid/automysqlbackup) page.
 
 Custom modifications:
+
 - passed logging to stdout/stderr
 - removed error logs mailing code
-- made default configuration more suitable for docker container 
+- made default configuration more suitable for docker container
 
 # Image usage
 
 Let's create a bridge network and start a MySQL container as an example.
+
 ```console
 docker network create dbtest
 docker run --name some-mysql --network dbtest \
@@ -30,6 +32,7 @@ docker run --name some-mysql --network dbtest \
 ```
 
 For the basic one-shot backup, you can run a container like this:
+
 ```console
 docker run --network dbtest \
     -v '/var/lib/automysqlbackup:/backup' \
@@ -44,6 +47,7 @@ docker run --network dbtest \
 Container will create dumps of all datebases from MySQL inside `/var/lib/automysqlbackup` directory and exit.
 
 To run container in a scheduled mode, populate `CRON_SCHEDULE` environment variable with a cron expression.
+
 ```console
 docker run --network dbtest \
     -v '/var/lib/automysqlbackup:/backup' \
@@ -58,6 +62,7 @@ docker run --network dbtest \
 
 Instead of passing environment variables though docker, you can also mount a file with their declarations
 as volume. See `defaults` file in this image's git repository for the example.
+
 ```console
 docker run --network dbtest \
     -v '/var/lib/automysqlbackup:/backup' \
@@ -70,98 +75,120 @@ docker run --network dbtest \
 For the example of using this image with docker-compose, see [docker-compose.yml](https://github.com/selim13/docker-automysqlbackup/blob/master/docker-compose.yml) file in the image's repository.
 
 Quick tips:
-* You can call `automysqlbackup` binary directly for the manual backup: `docker-compose exec mysqlbackup automysqlbackup`
-* Use only YAML dictionary for passing CRON_SCHEDULE environment variable `CRON_SCHEDULE: "0 0 * * *"`
-as YAML sequence `- CRON_SCHEDULE="0 * * * *"` will preserve quotes breaking go-cron (Issue #1).
 
+- You can call `automysqlbackup` binary directly for the manual backup: `docker-compose exec mysqlbackup automysqlbackup`
+- Use only YAML dictionary for passing CRON_SCHEDULE environment variable `CRON_SCHEDULE: "0 0 * * *"`
+  as YAML sequence `- CRON_SCHEDULE="0 * * * *"` will preserve quotes breaking go-cron (Issue #1).
 
 ## Environment variables
 
 ### CRON_SCHEDULE
-If set to cron expression, container will start a cron daemon for scheduled backups. 
+
+If set to cron expression, container will start a cron daemon for scheduled backups.
 
 ### USERNAME
+
 Username to access the MySQL server.
 
 ### PASSWORD
+
 Password to access the MySQL server.
 
 ### DBHOST
+
 Host name (or IP address) of MySQL server.
 
 ### DBPORT
+
 Port of MySQL server.
 
 ### DBNAMES
+
 List of space separated database names for Daily/Weekly Backup. Set to `all` for all databases.
 
 Default value: `all`
 
 ### BACKUPDIR
+
 Backup directory location.
 Folders inside this one will be created (daily, weekly, etc.), and the subfolders will be database names.
 
 Default value: `/backup`
 
 ### MDBNAMES
+
 List of space separated database names for Monthly Backups.
 
 Will mirror DBNAMES if DBNAMES set to `all`.
 
 ### DBEXCLUDE
+
 List of DBNAMES to **exclude** if DBNAMES are set to all (must be in " quotes).
 
 ### IGNORE_TABLES
+
 List of space separated table names in a format of `db_name.tbl_name` to exclude from backup (must be in " quotes).
 
 ### CREATE_DATABASE
+
 Include CREATE DATABASE in backup?
 
 Default value: `yes`
 
 ### SEPDIR
+
 Separate backup directory and file for each DB? (yes or no).
 
 Default value: `yes`
 
 ### DOWEEKLY
+
 Which day do you want weekly backups? (1 to 7 where 1 is Monday).
 
 Default value: `6`
 
 ### COMP
+
 Choose Compression type. (gzip or bzip2)
 
 Default value: `gzip`
 
 ### COMMCOMP
+
 Compress communications between backup server and MySQL server?
 
 Default value: `no`
 
 ### LATEST
+
 Additionally keep a copy of the most recent backup in a seperate directory.
 
 Default value: `no`
 
 ### MAX_ALLOWED_PACKET
+
 The maximum size of the buffer for client/server communication. e.g. 16MB (maximum is 1GB)
 
 ### SOCKET
+
 For connections to localhost. Sometimes the Unix socket file must be specified.
 
 ### PREBACKUP
-Command to run before backups 
+
+Command to run before backups
 
 ### POSTBACKUP
+
 Command run after backups
 
 ### ROUTINES
+
 Backup of stored procedures and routines
 
 Default value: `yes`
 
 ### EXTRA_OPTS
+
 Pass any arbitrary flags to mysqldump, e.g. `--single-transaction`.
 
 ## Docker Secrets
@@ -174,6 +201,19 @@ docker run --name automysqlbackup -e USERNAME=root -e PASSWORD_FILE=/run/secrets
 
 Currently, this is only supported for `USERNAME` and `PASSWORD`.
 
+## FAQ
+
+- **Will you add support for AutoMySQLBackup 3?**\
+  No. AutoMySQLBackup 3 was a complete rewrite of the script with much higher
+  complexity but was abandoned in 2011 before it released. There are multiple
+  repositories which try to support it by fixing bugs and ensuring compatibility
+  with newer MySQL versions but I don't have time to track changes in those
+  to properly support docker image.
+
+- **Can you add CONFIG\_\* option**\
+  Those options appeared in AutoMySQLBackup 3. See the above question.
+
 ## License
-Similar to the original automysqlbackup script, all sources for this image 
+
+Similar to the original automysqlbackup script, all sources for this image
 are licensed under [GPL-2.0](./LICENSE.txt).
