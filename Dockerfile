@@ -8,14 +8,14 @@ RUN go get -d -v github.com/odise/go-cron \
     && CGO_ENABLED=0 GOOS=linux go build -o go-cron bin/go-cron.go
 
 # Package
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 LABEL maintainer="selim013@gmail.com"
 
 RUN apt-get update && apt-get install -y --no-install-recommends gnupg dirmngr bzip2 && rm -rf /var/lib/apt/lists/*
 
 RUN set -uex; \
-    # gpg: key 5072E1F5: public key "MySQL Release Engineering <mysql-build@oss.oracle.com>" imported
-    key='A4A9406876FCBD3C456770C88C718D3B5072E1F5'; \
+    # gpg: key 3A79BD29: public key "MySQL Release Engineering <mysql-build@oss.oracle.com>" imported
+    key='859BE8D7C586F538430B19C2467B942D3A79BD29'; \
     export GNUPGHOME="$(mktemp -d)"; \
     (gpg --batch --keyserver keyserver.ubuntu.com --recv-keys "$key" \
     || gpg --batch --keyserver keys.openpgp.org --recv-keys "$key" \
@@ -27,7 +27,7 @@ RUN set -uex; \
 
 ENV MYSQL_MAJOR 8.0
 
-RUN echo "deb http://repo.mysql.com/apt/debian/ buster mysql-${MYSQL_MAJOR}" > /etc/apt/sources.list.d/mysql.list
+RUN echo "deb http://repo.mysql.com/apt/debian/ bullseye mysql-${MYSQL_MAJOR}" > /etc/apt/sources.list.d/mysql.list
 
 RUN apt-get update \
     && apt-get install -y mysql-community-client-core \
