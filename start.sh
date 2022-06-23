@@ -30,8 +30,27 @@ file_env 'PASSWORD'
 # Get USERNAME from USERNAME_FILE if availabile
 file_env 'USERNAME'
 
+# Select user to run the process
+user="root"
+if [ "$USER_ID" ] && [ "$USER_ID" != "1" ]; then
+         usermod --uid $USER_ID automysqlbackup
+         groupmod --gid $USER_ID automysqlbackup
+         user="automysqlbackup"
+fi
+
+# Select group to run the process
+group="$user"
+if [ "$GROUP_ID" ]; then
+        if [ "$GROUP_ID" == "1" ]; then
+                group="root"
+        else
+                groupmod -g $GROUP_ID automysqlbackup
+                group="automysqlbackup"
+        fi
+fi
+
 if [ "${CRON_SCHEDULE}" ]; then
-    exec go-cron -s "0 ${CRON_SCHEDULE}" -- automysqlbackup
+    exec gosu $user:$group go-cron -s "0 ${CRON_SCHEDULE}" -- automysqlbackup
 else
-    exec automysqlbackup
+    exec gosu $user:$group automysqlbackup
 fi

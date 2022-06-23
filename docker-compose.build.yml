@@ -1,0 +1,29 @@
+version: "2.4"
+
+volumes:
+  mysql-data: {}
+  mysql-backups-data: {}
+
+services:
+  mysql:
+    image: mysql:8.0
+    volumes:
+      - "mysql-data:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: "my-secret-pw"
+
+  mysqlbackup:
+    build: .
+    volumes:
+      - "./backup:/backup"
+    environment:
+      USERNAME: root
+      PASSWORD: "my-secret-pw"
+      DBHOST: mysql
+      DBEXCLUDE: "performance_schema information_schema"
+      CRON_SCHEDULE: "* * * * *"
+      EXTRA_OPTS: "--single-transaction"
+      USER_ID: 1
+      GROUP_ID: 1000
+    depends_on:
+      - mysql

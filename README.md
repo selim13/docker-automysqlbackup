@@ -159,6 +159,14 @@ Quick tips:
 - **EXTRA_OPTS**\
   Pass any arbitrary flags to mysqldump, e.g. `--single-transaction`.
 
+- **USER_ID**
+  Run the backup process from the specified user id. Allows matching backup files permissions with the host's user.\
+  Default value: `1` (root).
+
+- **GROUP_ID**
+  Run the backup process from the specified group id. Allows matching backup files permissions with the host's group.\
+  If empty, matches USER_ID.
+
 ## Docker Secrets
 
 As an alternative to passing sensitive information via environment variables, `_FILE` may be appended to some of the previously listed environment variables, causing the initialization script to load the values for those variables from files present in the container. In particular, this can be used to load passwords from Docker secrets stored in `/run/secrets/<secret_name>` files. For example:
