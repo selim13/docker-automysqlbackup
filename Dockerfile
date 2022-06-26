@@ -66,7 +66,8 @@ RUN chmod +x /usr/local/bin/go-cron \
     /usr/local/bin/automysqlbackup \
     /usr/local/bin/start.sh
 
-RUN groupadd -r automysqlbackup --gid=1000 && useradd -r -g automysqlbackup --uid=1000 automysqlbackup
+RUN groupadd -r automysqlbackup --gid=1000 && useradd --system --uid=1000 --gid automysqlbackup --groups tty automysqlbackup
+RUN ls -la /dev/stderr /dev/stdout
 
 WORKDIR /backup
 

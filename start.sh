@@ -33,9 +33,14 @@ file_env 'USERNAME'
 # Select user to run the process
 user="root"
 if [ "$USER_ID" ] && [ "$USER_ID" != "1" ]; then
-         usermod --uid $USER_ID automysqlbackup
-         groupmod --gid $USER_ID automysqlbackup
-         user="automysqlbackup"
+        usermod --uid $USER_ID automysqlbackup > /dev/null
+        groupmod --gid $USER_ID automysqlbackup
+
+        # make sure we can write to stdout and stderr as user
+        chown --dereference automysqlbackup "/proc/$$/fd/1" "/proc/$$/fd/2" || :
+        # ignore errors thanks to https://github.com/docker-library/mongo/issues/149
+
+        user="automysqlbackup"
 fi
 
 # Select group to run the process
@@ -52,5 +57,5 @@ fi
 if [ "${CRON_SCHEDULE}" ]; then
     exec gosu $user:$group go-cron -s "0 ${CRON_SCHEDULE}" -- automysqlbackup
 else
-    exec gosu $user:$group automysqlbackup
+    exec gosu $user:$group bash /usr/local/bin/automysqlbackup
 fi
