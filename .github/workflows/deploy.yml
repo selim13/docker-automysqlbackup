@@ -1,38 +1,50 @@
 on:
   schedule:
     - cron: "0 0 * * 0" # rebuild once a week
-  push:
-    tags:
-      - "*"
-    branches:
-      - "build"
+  release:
+    types:
+      - released
 
 jobs:
   deploy:
+    name: Deploy latest full release
+
     strategy:
       matrix:
         variant:
           - dockerfile: Dockerfile
-            version: "8.0"
+            mysql-version: "8.0"
+            latest: true
           - dockerfile: Dockerfile.mysql57
-            version: "5.7"
+            mysql-version: "5.7"
 
     runs-on: ubuntu-latest
 
     steps:
-      - run: echo "${{ matrix.variant.dockerfile }}"
+      - name: Fetch the latest release
+        uses: octokit/request-action@v2.x
+        id: get_latest_release
+        with:
+          route: GET /repos/{owner}/{repo}/releases/latest
+          owner: selim13
+          repo: docker-automysqlbackup
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Checkout
+      - name: Checkout all tags
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Switch to latest release tag
+      - name: Switch to the latest relese tag
         id: latest-release
         run: |
-          LATEST_RELEASE_VERSION=$(git describe --tags `git rev-list --tags --max-count=1` | sed 's/^v//')
-          # git checkout $LATEST_RELEASE_VERSION
-          echo "::set-output name=latest-release::$(echo $LATEST_RELEASE_VERSION)"
+          LATEST_RELEASE_TAG="${{ fromJSON(steps.get_latest_release.outputs.data).tag_name }}"
+          git checkout $LATEST_RELEASE_VERSION
+          echo "::set-output name=latest-release::$(echo $LATEST_RELEASE_TAG | sed 's/^v//')"
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
 
       - name: Set up Docker Buildx
         id: buildx
@@ -59,7 +71,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build and push the image
+        if: matrix.variant.latest != true
         uses: docker/build-push-action@v3
         with:
           context: .
@@ -67,7 +80,25 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:${{ steps.latest-release.outputs.latest-release }}-${{ matrix.variant.version }}
-            ${{ secrets.DOCKERHUB_REPOSITORY }}:${{ steps.latest-release.outputs.latest-release }}-${{ matrix.variant.version }}
+            ghcr.io/${{ github.repository }}:${{ steps.latest-release.outputs.latest-release }}-mysql${{ matrix.variant.mysql-version }}
+            ${{ secrets.DOCKERHUB_REPOSITORY }}:${{ steps.latest-release.outputs.latest-release }}-mysql${{ matrix.variant.mysql-version }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push the image with the latest mysql-client version
+        if: matrix.variant.latest == true
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ${{ matrix.variant.dockerfile }}
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ steps.latest-release.outputs.latest-release }}
+            ghcr.io/${{ github.repository }}:${{ steps.latest-release.outputs.latest-release }}-mysql${{ matrix.variant.mysql-version }}
+            ${{ secrets.DOCKERHUB_REPOSITORY }}:latest
+            ${{ secrets.DOCKERHUB_REPOSITORY }}:${{ steps.latest-release.outputs.latest-release }}
+            ${{ secrets.DOCKERHUB_REPOSITORY }}:${{ steps.latest-release.outputs.latest-release }}-mysql${{ matrix.variant.mysql-version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
