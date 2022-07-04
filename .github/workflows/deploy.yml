@@ -6,9 +6,9 @@ jobs:
     strategy:
       matrix:
         variant:
-          - dockerfile: Dokerfile
+          - dockerfile: Dockerfile
             version: "8.0"
-          - dockerfile: Dokerfile.mysql57
+          - dockerfile: Dockerfile.mysql57
             version: "5.7"
 
     runs-on: ubuntu-latest
