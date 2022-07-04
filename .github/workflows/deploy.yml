@@ -3,8 +3,6 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-
     strategy:
       matrix:
         variant:
@@ -13,7 +11,11 @@ jobs:
           - dockerfile: Dokerfile.mysql57
             version: "5.7"
 
+    runs-on: ubuntu-latest
+
     steps:
+      - run: echo "${{ matrix.variant.dockerfile }}"
+
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -52,10 +54,10 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ${{ matrix.dockerfile }}
+          file: ${{ matrix.variant.dockerfile }}
           platforms: linux/amd64
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:${{ steps.latest-release.outputs.latest-release }}-${{ matrix.version }}
+            ghcr.io/${{ github.repository }}:${{ steps.latest-release.outputs.latest-release }}-${{ matrix.variant.version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
