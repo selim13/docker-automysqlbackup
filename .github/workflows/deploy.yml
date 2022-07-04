@@ -26,7 +26,7 @@ jobs:
       - name: Switch to latest release tag
         id: latest-release
         run: |
-          LATEST_RELEASE_VERSION=$(git describe --tags `git rev-list --tags --max-count=1`)
+          LATEST_RELEASE_VERSION=$(git describe --tags `git rev-list --tags --max-count=1` | sed 's/^v//')
           # git checkout $LATEST_RELEASE_VERSION
           echo "::set-output name=latest-release::$(echo $LATEST_RELEASE_VERSION)"
 
