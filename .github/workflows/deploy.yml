@@ -3,7 +3,7 @@ on:
     - cron: "0 0 * * 0" # rebuild once a week
   release:
     types:
-      - released
+      - published
 
 jobs:
   deploy:

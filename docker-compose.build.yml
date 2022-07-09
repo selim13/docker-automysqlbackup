@@ -21,9 +21,9 @@ services:
       PASSWORD: "my-secret-pw"
       DBHOST: mysql
       DBEXCLUDE: "performance_schema information_schema"
-      CRON_SCHEDULE: "* * * * *"
+      #CRON_SCHEDULE: "* * * * *"
       EXTRA_OPTS: "--single-transaction"
-      USER_ID: 1
+      USER_ID: 1000
       GROUP_ID: 1000
     depends_on:
       - mysql

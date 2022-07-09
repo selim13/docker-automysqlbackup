@@ -46,6 +46,9 @@ jobs:
           timeout 100s bash -c 'while [ $(docker inspect --format="{{.State.Health.Status}}" test-mysql) != 'healthy' ]; do docker inspect --format="{{.State.Health.Status}}" test-mysql; sleep 1; done' || { echo "::error::MySQL server start up failure" && exit 1; }
           echo ::notice::MySQL ${{ matrix.variant.mysql-version }} started
 
+      - name: Install bats
+        run: sudo apt install bats
+
       - name: Test backups from root
         run: |
           DIR="${{ runner.temp }}/automysqlbackup-root"
