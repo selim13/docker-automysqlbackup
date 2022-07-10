@@ -1,5 +1,7 @@
 on:
   push:
+    tags-ignore:
+      - "v*" # exclude releases
 
 jobs:
   test:
@@ -21,66 +23,8 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Build and export to docker
-        uses: docker/build-push-action@v3
+      - name: Test the image
+        uses: ./.github/actions/test
         with:
-          context: .
-          file: ${{ matrix.variant.dockerfile }}
-          load: true
-          tags: automysqlbackup:test-${{ matrix.variant.mysql-version }}
-
-      - name: Set up the environment
-        run: |
-          echo ::notice::Starting MySQL ${{ matrix.variant.mysql-version }}
-          docker network create dbtest
-          docker run --name test-mysql \
-            --network dbtest \
-            --env MYSQL_ROOT_PASSWORD=my-secret-pw \
-            --volume "$(pwd)/test/testdb-init.sql:/docker-entrypoint-initdb.d/testdb-init.sql" \
-            --health-cmd 'mysql --database=testdb --password=my-secret-pw --execute="SELECT count(*) > 0 FROM test_table;" --skip-column-names -B' \
-            --health-interval 30s \
-            --health-retries 5 \
-            --health-timeout 10s \
-            --detach mysql:${{ matrix.variant.mysql-version }}
-          timeout 100s bash -c 'while [ $(docker inspect --format="{{.State.Health.Status}}" test-mysql) != 'healthy' ]; do docker inspect --format="{{.State.Health.Status}}" test-mysql; sleep 1; done' || { echo "::error::MySQL server start up failure" && exit 1; }
-          echo ::notice::MySQL ${{ matrix.variant.mysql-version }} started
-
-      - name: Test backups from root
-        run: |
-          DIR="${{ runner.temp }}/automysqlbackup-root"
-          sudo mkdir -p $DIR
-          docker run --name automysqlbackup \
-            --rm \
-            --network dbtest \
-            --volume "$DIR:/backup" \
-            --env DBHOST=test-mysql \
-            --env DBNAMES=all \
-            --env USERNAME=root \
-            --env PASSWORD=my-secret-pw \
-            --env DBNAMES=all \
-            --env DBEXCLUDE="performance_schema information_schema" \
-            --env IGNORE_TABLES="testdb.ignoretable" \
-            automysqlbackup:test-${{ matrix.variant.mysql-version }}
-
-          sudo ./test/test.sh $DIR
-
-      - name: Test backups from the regular user
-        run: |
-          DIR="${{ runner.temp }}/automysqlbackup-user"
-          mkdir -p $DIR
-          docker run --name automysqlbackup \
-            --rm \
-            --network dbtest \
-            --volume "$DIR:/backup" \
-            --env DBHOST=test-mysql \
-            --env DBNAMES=all \
-            --env USERNAME=root \
-            --env PASSWORD=my-secret-pw \
-            --env DBNAMES=all \
-            --env DBEXCLUDE="performance_schema information_schema" \
-            --env IGNORE_TABLES="testdb.ignoretable" \
-            --env USER_ID="$(id -u)" \
-            --env GROUP_ID="$(id -g)" \
-            automysqlbackup:test-${{ matrix.variant.mysql-version }}
-
-          ./test/test.sh $DIR
+          mysql-version: ${{ matrix.variant.mysql-version }}
+          dockerfile: ${{ matrix.variant.dockerfile }}
