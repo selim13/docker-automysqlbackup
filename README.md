@@ -5,9 +5,8 @@ Runs a slightly modified [AutoMySQLBackup](https://sourceforge.net/projects/auto
 
 ## Supported tags and respective `Dockerfile` links
 
-- [`2.6-9` (_Dockerfile_)](https://github.com/selim13/docker-automysqlbackup/blob/2.6-9/Dockerfile), main image with mysql8 client
-- [`2.6-9a-mysql57` (_Dockerfile_)](https://github.com/selim13/docker-automysqlbackup/blob/2.6-9a-mysql57/Dockerfile), version with mysql5.7 client
-- [`latest` (_Dockerfile_)](https://github.com/selim13/docker-automysqlbackup/blob/master/Dockerfile) tracks the `master` branch, may be buggy
+- [`2.7.0 2.7.0-mysql8.0 latest` (_Dockerfile_)](https://github.com/selim13/docker-automysqlbackup/blob/v2.7.0/Dockerfile), main image with mysql8 client
+- [`2.7.0-mysql5.7` (_Dockerfile_)](https://github.com/selim13/docker-automysqlbackup/blob/v2.7.0/Dockerfile.mysql57), version with mysql5.7 client
 
 ## Version
 
@@ -41,7 +40,7 @@ docker run --network dbtest \
     -e USERNAME=root \
     -e PASSWORD=my-secret-pw \
     -e DBNAMES=all \
-    automysqlbackup
+    automysqlbackup:2.7.0
 ```
 
 Container will create dumps of all datebases from MySQL inside `/var/lib/automysqlbackup` directory and exit.
@@ -57,7 +56,7 @@ docker run --network dbtest \
     -e PASSWORD=my-secret-pw \
     -e DBNAMES=all \
     -e CRON_SCHEDULE="0 0 * * *" \
-    automysqlbackup
+    automysqlbackup:2.7.0
 ```
 
 Instead of passing environment variables though docker, you can also mount a file with their declarations
@@ -67,7 +66,7 @@ as volume. See `defaults` file in this image's git repository for the example.
 docker run --network dbtest \
     -v '/var/lib/automysqlbackup:/backup' \
     -v '/etc/default/automysqlbackup:/etc/default/automysqlbackup:ro' \
-    automysqlbackup
+    automysqlbackup:2.7.0
 ```
 
 # Usage with docker-compose
