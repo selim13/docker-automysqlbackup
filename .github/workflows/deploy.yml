@@ -1,0 +1,112 @@
+on:
+  schedule:
+    - cron: "0 0 * * 0" # rebuild once a week
+  release:
+    types:
+      - published
+
+jobs:
+  deploy:
+    name: Deploy latest full release
+
+    strategy:
+      matrix:
+        variant:
+          - dockerfile: Dockerfile
+            mysql-version: "8.0"
+            platforms: linux/amd64
+            latest: true
+          - dockerfile: Dockerfile.mysql57
+            mysql-version: "5.7"
+            platforms: linux/amd64
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Fetch the latest release
+        uses: octokit/request-action@v2.x
+        id: get_latest_release
+        with:
+          route: GET /repos/{owner}/{repo}/releases/latest
+          owner: selim13
+          repo: docker-automysqlbackup
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout all tags
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Switch to the latest relese tag
+        id: latest-release
+        run: |
+          LATEST_RELEASE_TAG="${{ fromJSON(steps.get_latest_release.outputs.data).tag_name }}"
+          git checkout $LATEST_RELEASE_VERSION
+          echo "::set-output name=latest-release::$(echo $LATEST_RELEASE_TAG | sed 's/^v//')"
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Inspect Buildx
+        run: |
+          echo "Name:      ${{ steps.buildx.outputs.name }}"
+          echo "Endpoint:  ${{ steps.buildx.outputs.endpoint }}"
+          echo "Status:    ${{ steps.buildx.outputs.status }}"
+          echo "Flags:     ${{ steps.buildx.outputs.flags }}"
+          echo "Platforms: ${{ steps.buildx.outputs.platforms }}"
+
+      - name: Test the image
+        uses: ./.github/actions/test
+        with:
+          mysql-version: ${{ matrix.variant.mysql-version }}
+          dockerfile: ${{ matrix.variant.dockerfile }}
+
+      - name: Login to Github Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push the image
+        if: matrix.variant.latest != true
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ${{ matrix.variant.dockerfile }}
+          platforms: ${{ matrix.variant.platforms }}
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:${{ steps.latest-release.outputs.latest-release }}-mysql${{ matrix.variant.mysql-version }}
+            ${{ secrets.DOCKERHUB_REPOSITORY }}:${{ steps.latest-release.outputs.latest-release }}-mysql${{ matrix.variant.mysql-version }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push the image with the latest tags
+        if: matrix.variant.latest == true
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ${{ matrix.variant.dockerfile }}
+          platforms: ${{ matrix.variant.platforms }}
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ steps.latest-release.outputs.latest-release }}
+            ghcr.io/${{ github.repository }}:${{ steps.latest-release.outputs.latest-release }}-mysql${{ matrix.variant.mysql-version }}
+            ${{ secrets.DOCKERHUB_REPOSITORY }}:latest
+            ${{ secrets.DOCKERHUB_REPOSITORY }}:${{ steps.latest-release.outputs.latest-release }}
+            ${{ secrets.DOCKERHUB_REPOSITORY }}:${{ steps.latest-release.outputs.latest-release }}-mysql${{ matrix.variant.mysql-version }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
